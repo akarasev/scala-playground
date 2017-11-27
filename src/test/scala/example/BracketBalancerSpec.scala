@@ -16,4 +16,11 @@ class BracketBalancerSpec extends FlatSpec with Matchers {
     BracketBalancer.isBalanced("{{[[(())]]}}") shouldBe true
   }
 
+  "Brackets ((()))" should "be balanced" in {
+    BracketBalancer.isBalancedRecursion("((()))") shouldBe true
+  }
+
+  "Brackets ((()" should "be unbalanced" in {
+    BracketBalancer.isBalancedRecursion("((()") shouldBe false
+  }
 }

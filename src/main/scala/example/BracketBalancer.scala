@@ -52,4 +52,28 @@ object BracketBalancer {
     stack.isEmpty
   }
 
+  /**
+    * Alternative parentheses balance check (with recursion).
+    *
+    * @param text text with brackets.
+    * @return if a string is balanced, return true; otherwise, return false.
+    */
+  def isBalancedRecursion(text: String): Boolean = {
+
+    def isBalanced(text: List[Char], numOpens: Int): Boolean = {
+      if (text.isEmpty) {
+        numOpens == 0
+      } else {
+        val n: Int =
+          if ('(' == text.head) numOpens + 1
+          else if (')' == text.head) numOpens - 1
+          else numOpens
+
+        isBalanced(text.tail, n)
+      }
+    }
+
+    isBalanced(text.toList, 0)
+  }
+
 }
