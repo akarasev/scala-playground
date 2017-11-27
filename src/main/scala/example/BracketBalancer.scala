@@ -32,13 +32,24 @@ package example
 object BracketBalancer {
 
   /**
-    * Given  strings of brackets, determine whether each sequence of brackets is balanced.
+    * Given strings of brackets, determine whether each sequence of brackets is balanced.
     *
     * @param text text with brackets.
-    * @return if a string is balanced, print YES on a new line; otherwise, print NO on a new line.
+    * @return if a string is balanced, return true; otherwise, return false.
     */
   def isBalanced(text: String): Boolean = {
-    ???
+    var stack: List[Char] = List()
+
+    text.foreach {
+      case '{' => stack = '{' :: stack
+      case '}' => if ('{' == stack.head) stack = stack.tail
+      case '[' => stack = '[' :: stack
+      case ']' => if ('[' == stack.head) stack = stack.tail
+      case '(' => stack = '(' :: stack
+      case ')' => if ('(' == stack.head) stack = stack.tail
+    }
+
+    stack.isEmpty
   }
 
 }
