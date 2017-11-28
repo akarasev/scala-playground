@@ -21,17 +21,40 @@ package example
   *   it is needed to determine if it's also a binary search tree
   * </p>
   *
+  * <h3>Constraints</h3>
+  * <ul>
+  *   <li>0 &le; data &le; 10<sup>4</sup>
+  * </ul>
   */
 object BinaryTreeChecker {
+
+  case class Node(data: Int, left: Node, right: Node)
+
+  case object Node {
+    def apply(data: Int) = new Node(data, null, null)
+  }
 
   /**
     * Check whether the tree with given root node is Binary Search Tree.
     *
-    * @param root root node of the tree.
+    * @param root root of the tree.
     * @return true, is the tree is Binary Search Tree; false, otherwise.
     */
-  def isBinarySearchTree(root: Any): Boolean = {
-    ???
+  def isBinarySearchTree(root: Node): Boolean = {
+    def isBinarySearchTree(node: Node, lowBound: Int, hiBound: Int): Boolean = {
+      if (node == null) {
+        return true
+      }
+
+      if (node.data < lowBound || node.data > hiBound) {
+        return false
+      }
+
+      (isBinarySearchTree(node.left, lowBound, node.data - 1)
+        && isBinarySearchTree(node.right, node.data + 1, hiBound))
+    }
+
+    isBinarySearchTree(root: Node, 0, 10000)
   }
 
 }
