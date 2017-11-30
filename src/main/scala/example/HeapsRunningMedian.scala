@@ -47,6 +47,35 @@ object HeapsRunningMedian {
     * @return all medians.
     */
   def getMedians(items: List[Int]): List[Double] = {
-    ???
+
+    def process(value: Int): Double = {
+
+      if (minHeap.isEmpty || value < minHeap.clone.dequeue) {
+        minHeap.enqueue(value)
+      } else {
+        maxHeap.enqueue(value)
+      }
+
+      if (math.abs(minHeap.size - maxHeap.size) > 1) {
+        if (minHeap.size > maxHeap.size) {
+          maxHeap.enqueue(minHeap.dequeue)
+        } else {
+          minHeap.enqueue(maxHeap.dequeue)
+        }
+      }
+
+      val median =
+        if (minHeap.size > maxHeap.size) {
+          minHeap.clone.dequeue
+        } else if (minHeap.size < maxHeap.size) {
+          maxHeap.clone.dequeue
+        } else {
+          (minHeap.clone.dequeue.toDouble + maxHeap.clone.dequeue) / 2
+        }
+
+      median
+    }
+
+    items map process
   }
 }
