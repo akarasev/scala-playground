@@ -1,5 +1,7 @@
 package example
 
+import scala.collection.mutable
+
 /**
   * <h3>Tries: Contacts</h3>
   * <p>
@@ -14,13 +16,39 @@ package example
   */
 object TrieContacts {
 
+  class Node {
+    private val children = mutable.Map[Char, Node]()
+    private var size = 0
+
+    def add(text: String): Unit = {
+      size += 1
+
+      if (!text.isEmpty) {
+        val node = children.getOrElseUpdate(text.head, new Node())
+        node.add(text.tail)
+      }
+    }
+
+    def find(criteria: String): Int = {
+      if (criteria.isEmpty) {
+        size
+      } else if (!children.contains(criteria.head)) {
+        0
+      } else {
+        children(criteria.head).find(criteria.tail)
+      }
+    }
+  }
+
+  val root = new Node()
+
   /**
     * Add name to the contacts app.
     *
     * @param name a string denoting a contact name
     */
   def add(name: String): Unit = {
-    ???
+    root.add(name)
   }
 
   /**
@@ -30,7 +58,7 @@ object TrieContacts {
     * @return contact count.
     */
   def find(partial: String): Int = {
-    ???
+    root.find(partial)
   }
 
 }
