@@ -16,12 +16,22 @@ package example
 object RecursionDavisStaircase {
 
   /**
-    * Calc the number of ways Davis can climb on the top of staircase.
+    * Count the number of ways Davis can climb on the top of staircase.
     *
-    * @param s the number of staircases.
+    * @param steps the number of staircases.
     * @return the number of ways to climb.
     */
-  def calc(s: Int): Int = {
-    ???
+  def countWays(steps: Int): Int = {
+    countWaysR(steps, Array.fill(steps + 1)(0))
+  }
+
+  def countWaysR(steps: Int, memo: Array[Int]): Int = steps match {
+    case i if i < 0 => 0
+    case 0 => 1
+    case n =>
+      if (memo(n) == 0) {
+        memo(n) = countWaysR(n - 1, memo) + countWaysR(n - 2, memo) + countWaysR(n - 3, memo)
+      }
+      memo(n)
   }
 }
