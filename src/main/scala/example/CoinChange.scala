@@ -10,18 +10,43 @@ package example
   */
 object CoinChange {
 
-  def countR(money: Int, coins: List[Int]): Int = {
-    if (money == 0) {
+  /**
+    * Find change combinations using recursion. Time complexity O(M^N)
+    *
+    * @param money amount of money.
+    * @param coins list of coins' denominations
+    * @return count of ways to make a change.
+    */
+  def makeChangeR(money: Int, coins: List[Int]): Int = {
+    if (money > 0 && coins.nonEmpty) {
+      makeChangeR(money - coins.head, coins) + makeChangeR(money, coins.tail)
+    } else if (money == 0) {
       1
-    } else if (money > 0 && coins.nonEmpty) {
-      countR(money - coins.head, coins) + countR(money, coins.tail)
     } else {
       0
     }
   }
 
-  def count(money: Int, coins: List[Int]): Int = {
-    ???
+  /**
+    * Find change combinations using dynamic programming. Time complexity O(MN) and additional space O(M)
+    *
+    * @param money amount of money.
+    * @param coins list of coins' denominations
+    * @return count of ways to make a change.
+    */
+  def makeChange(money: Int, coins: List[Int]): Int = {
+    val combinations = Array.fill(money + 1)(0)
+    combinations(0) = 1
+
+    coins.foreach(coin => {
+      for (amount <- 1 to money) {
+        if (amount >= coin) {
+          combinations(amount) += combinations(amount - coin)
+        }
+      }
+    })
+
+    combinations(money)
   }
 
 }
