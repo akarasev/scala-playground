@@ -35,7 +35,7 @@ object ConnectedCell {
       for (col <- grid.indices) {
         if (grid(row)(col) == 1) {
           val size = computeRegionSize(grid, row, col)
-          result = math.max(result, size)
+          result = math.max(size, result)
         }
       }
     }
@@ -45,25 +45,23 @@ object ConnectedCell {
 
   private def computeRegionSize(grid: Array[Array[Int]], row: Int, col: Int): Int = {
     if (row < 0 || col < 0 || row >= grid.length || col >= grid(row).length) {
-      return 0
-    }
+      0
+    } else if (grid(row)(col) == 0) {
+      0
+    } else {
+      var size = 1
+      grid(row)(col) = 0
 
-    if (grid(row)(col) == 0) {
-      return 0
-    }
-
-    var size = 1
-    grid(row)(col) = 0
-
-    for (r <- row - 1 to row + 1) {
-      for (c <- col - 1 to col + 1) {
-        if (!(r == row && c == col)) {
-          size += computeRegionSize(grid, r, c)
+      for (r <- (row - 1) to (row + 1)) {
+        for (c <- (col - 1) to (col + 1)) {
+          if (!(row == r && col == c)) {
+            size += computeRegionSize(grid, r, c)
+          }
         }
       }
-    }
 
-    size
+      size
+    }
   }
 
 }
