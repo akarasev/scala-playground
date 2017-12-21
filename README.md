@@ -6,7 +6,7 @@ To see the samples in action use command line.
 On Linux and macOS
 > $ ./sbt test
 
-On Window
+On Windows
 > \> sbt.bat test
 
 To run a specific spec enter to SBT console. E.g.
